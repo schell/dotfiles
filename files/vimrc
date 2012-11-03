@@ -141,6 +141,15 @@ let g:tagbar_type_haskell = {
         \ 'f:functions',
     \ ]
 \ }
+let g:tagbar_type_javascript = {
+    \ 'ctagstype' : 'Javascript',
+    \ 'kinds' : [
+        \ 'v:vars',
+        \ 'p:properties',
+        \ 'r:prototypefuncs',
+        \ 'f:functions',
+    \ ]
+\ }
 
 " Clipboard
 set clipboard=unnamed

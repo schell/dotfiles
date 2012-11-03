@@ -11,3 +11,10 @@
 --regex-haskell=/^import[ \s](.*)/import \1/i,import/
 --regex-haskell=/^data[ \s]([a-zA-Z0-9]*)[ \s]/data \1/d,data/
 --regex-haskell=/^([a-zA-Z0-9]*)[ \s]::[ \s](.*)$/\1/f,functions/
+
+--langdef=javascript
+--langmap=javascript:.js
+--regex-javascript=/var[ \s]([a-zA-Z0-9]*)[ \s]=/var \1/v,vars/
+--regex-javascript=/this\.([a-zA-Z0-9]*)[ \s]=/this.\1/p,properties/
+--regex-javascript=/([a-zA-Z0-9]*)\.prototype.([a-zA-Z0-9]*)[ \s]=/\1.\2/r,prototypefuncs/
+--regex-javascript=/[^=][ \s]function[ \s]([a-zA-Z0-9]*)/\1/f,functions/
