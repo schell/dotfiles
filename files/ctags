@@ -16,5 +16,5 @@
 --langmap=javascript:.js
 --regex-javascript=/var[ \s]([a-zA-Z0-9]*)[ \s]=/var \1/v,vars/
 --regex-javascript=/this\.([a-zA-Z0-9]*)[ \s]=/this.\1/p,properties/
---regex-javascript=/([a-zA-Z0-9]*)\.prototype.([a-zA-Z0-9]*)[ \s]=/\1.\2/r,prototypefuncs/
+--regex-javascript=/^[ \t| \s]*([a-zA-Z0-9]*)\.([^ \s]*)[ \s]= function/\1.\2/s,object_functions/
 --regex-javascript=/[^=][ \s]function[ \s]([a-zA-Z0-9]*)/\1/f,functions/

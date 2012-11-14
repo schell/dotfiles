@@ -146,7 +146,7 @@ let g:tagbar_type_javascript = {
     \ 'kinds' : [
         \ 'v:vars',
         \ 'p:properties',
-        \ 'r:prototypefuncs',
+        \ 's:object_functions',
         \ 'f:functions',
     \ ]
 \ }
@@ -164,3 +164,14 @@ let NERDTreeMouseMode=2
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
+
+" Special chars
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+ 
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+        
+"Invisible character colors
+highlight NonText guibg=#000000
+highlight SpecialKey guibg=#000000
