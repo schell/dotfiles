@@ -49,8 +49,6 @@ set __CF_USER_TEXT_ENCODING 0x1F5:0x08000100:0
 #path stuff
 set EDITOR $HOME/bin/mate -w
 set PATH /usr/local/bin $PATH
-# MacPorts Installer addition on 2009-12-17_at_17:22:31: adding an appropriate PATH variable for use with MacPorts.
-set PATH $PATH $HOME/.gem/ruby/1.8/bin 
 set PATH $PATH $HOME/Applications/bin 
 set PATH $PATH /opt/subversion/bin 
 set PATH $PATH /opt/local/bin  
@@ -58,6 +56,7 @@ set PATH $PATH /opt/local/sbin
 set PATH $PATH $HOME/bin  
 set PATH $PATH /Applications/MAMP/bin/php5.3/bin  
 set PATH $PATH /Applications/MAMP/Library/bin
+set PATH /usr/local/Cellar/ruby/1.9.3-p327/bin $PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 # MacPorts Installer addition on 2010-10-10_at_13 45 22  adding an appropriate PATH variable for use with MacPorts.
@@ -71,6 +70,11 @@ set PATH $PATH $HOME/Library/Haskell/bin
 # Add Go stuff
 set GOROOT /usr/local/go
 set PATH $PATH $GOROOT/bin
+
+# Add ruby things...
+set PATH $HOME/.rbenv/bin $PATH
+set PATH $HOME/.rbenv/shims $PATH
+rbenv rehash >/dev/null ^&1
 
 function parse_git_branch
     set gitstatus (git status)

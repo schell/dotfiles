@@ -16,6 +16,7 @@ Bundle 'Shougo/vimproc'
 Bundle 'scrooloose/syntastic'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'eagletmt/ghcmod-vim'
+Bundle 'pbrisbin/html-template-syntax'
 Bundle 'ujihisa/neco-ghc'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
@@ -28,6 +29,8 @@ Bundle 'kana/vim-fakeclip'
 Bundle 'scrooloose/nerdtree'
 Bundle 'pangloss/vim-javascript'
 Bundle 'juvenn/mustache.vim'
+Bundle 'vim-scripts/rails.vim'
+Bundle 'flazz/vim-colorschemes'
 
 " original repos on github
 " Bundle 'tpope/vim-fugitive'
@@ -56,8 +59,8 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 " Looks... 
 set term=screen-256color
 syntax enable
-set background=dark
-colorscheme solarized
+" set background=dark
+colorscheme zenburn
 set showmode
 set cursorline
 call Pl#Theme#InsertSegment('fullcurrenttag', 'before', 'filetype')
@@ -147,6 +150,7 @@ let g:tagbar_type_javascript = {
         \ 'v:vars',
         \ 'p:properties',
         \ 's:object_functions',
+        \ 'g:getters_setters',
         \ 'f:functions',
     \ ]
 \ }
