@@ -9,10 +9,10 @@ function gocviewer
     cd ~/code/synapse/CocoaViewer
 end
 function la
-    ls -a
+    ls -a $argv
 end
 function lh
-    ls -lah
+    ls -lah $argv
 end
 
 # xcodebuild helper
@@ -57,6 +57,7 @@ set PATH $PATH $HOME/bin
 set PATH $PATH /Applications/MAMP/bin/php5.3/bin  
 set PATH $PATH /Applications/MAMP/Library/bin
 set PATH /usr/local/Cellar/ruby/1.9.3-p327/bin $PATH
+set PATH $PATH $HOME/arm-cs-tools/bin
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 # MacPorts Installer addition on 2010-10-10_at_13 45 22  adding an appropriate PATH variable for use with MacPorts.
@@ -64,8 +65,11 @@ set PATH $PATH /opt/local/bin
 set PATH $PATH /opt/local/sbin  
 set PATH $PATH /SDKs/Flex/bin
 
-# Add Haskell userspace bin
+# Haskell stuff 
 set PATH $PATH $HOME/Library/Haskell/bin
+function cdb 
+    eval 'cabal-dev/bin/$argv'
+end
 
 # Add Go stuff
 set GOROOT /usr/local/go

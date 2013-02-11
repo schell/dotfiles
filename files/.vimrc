@@ -108,8 +108,9 @@ let g:neocomplcache_enable_auto_select = 0
 " Neocomplcache-snippets-complete
 let g:neocomplcache_snippets_dir = '~/.vim/snippets'
 
-" ghcmod stuff
+" haskell/yesod stuff
 autocmd BufWritePost *.hs call s:check_and_lint()
+autocmd BufNewFile,BufRead *.hamlet set syntax=hamlet
 
 function! s:check_and_lint()
     let l:qflist = ghcmod#make('check')
