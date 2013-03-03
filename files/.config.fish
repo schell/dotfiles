@@ -14,6 +14,9 @@ end
 function lh
     ls -lah $argv
 end
+function lo
+    ls -loh $argv
+end
 
 # xcodebuild helper
 function xcodebuildup
