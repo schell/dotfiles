@@ -17,71 +17,40 @@ end
 function lo
     ls -loh $argv
 end
-
-# xcodebuild helper
-function xcodebuildup
-    function hereOrUp
-        if test -d usr
-            echo "error:could not find xcodeproj"
-        else
-            if test -d *.xcodeproj
-                echo -n "found xcodeproj at "
-                pwd
-                xcodebuild
-            else
-                echo ".."
-                cd ..
-                hereOrUp
-            end
-        end
+function macvim
+    if not test -f $argv
+        touch $argv
     end
 
-    set OWD (pwd)
-    hereOrUp
-    cd $OWD
-end
-
-# Android SDK location...
-function android
-    ~/code/android/android-sdk-macosx/tools/android $argv
+    open -a MacVim.app $argv
 end
 
 # TMUX/VIM settings...
 set TERM screen-256color-bce
 set __CF_USER_TEXT_ENCODING 0x1F5:0x08000100:0
+
 #path stuff
-set EDITOR $HOME/bin/mate -w
+set PATH $HOME/.cabal/bin $PATH
 set PATH /usr/local/bin $PATH
 set PATH $PATH $HOME/Applications/bin 
 set PATH $PATH /opt/subversion/bin 
 set PATH $PATH /opt/local/bin  
 set PATH $PATH /opt/local/sbin  
 set PATH $PATH $HOME/bin  
-set PATH $PATH /Applications/MAMP/bin/php5.3/bin  
-set PATH $PATH /Applications/MAMP/Library/bin
-set PATH /usr/local/Cellar/ruby/1.9.3-p327/bin $PATH
-set PATH $PATH $HOME/arm-cs-tools/bin
-# Finished adapting your PATH environment variable for use with MacPorts.
-
-# MacPorts Installer addition on 2010-10-10_at_13 45 22  adding an appropriate PATH variable for use with MacPorts.
-set PATH $PATH /opt/local/bin  
-set PATH $PATH /opt/local/sbin  
-set PATH $PATH /SDKs/Flex/bin
 
 # Haskell stuff 
 set PATH $PATH $HOME/Library/Haskell/bin
-function cdb 
-    eval 'cabal-dev/bin/$argv'
-end
+
+# Node stuff
+set PATH $PATH $HOME/Code/nvm/bin
+set PATH $PATH /usr/local/share/npm/bin
+set NODE_PATH /usr/local/lib/node
+
+
 
 # Add Go stuff
 set GOROOT /usr/local/go
 set PATH $PATH $GOROOT/bin
-
-# Add ruby things...
-set PATH $HOME/.rbenv/bin $PATH
-set PATH $HOME/.rbenv/shims $PATH
-rbenv rehash >/dev/null ^&1
 
 function parse_git_branch
     set gitstatus (git status)
@@ -139,9 +108,4 @@ function fish_prompt --description 'Write out the prompt'
         printf '%s@%s:%s%s%s%s$ ' $USER $__fish_prompt_hostname "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" $__git_cb
 
     end
-end
-
-#search string
-function gstring 
-    grep -r "$argv" src > grep; vim grep; rm grep
 end

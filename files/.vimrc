@@ -1,3 +1,18 @@
+" Get path info (mac stuff)
+" TODO:  Is there a better way to tell that Vim.app was started from Finder.app?
+" Note:  Do not move this to the gvimrc file, else this value of $PATH will
+" not be available to plugin scripts.
+if has("gui_running") && system('ps xw | grep "Vim -psn" | grep -vc grep') > 0
+  " Get the value of $PATH from a login shell.
+  " If your shell is not on this list, it may be just because we have not
+  " tested it.  Try adding it to the list and see if it works.  If so,
+  " please post a note to the vim-mac list!
+  if $SHELL =~ '/\(sh\|csh\|bash\|tcsh\|zsh\)$'
+    let s:path = system("echo echo VIMPATH'${PATH}' | $SHELL -l")
+    let $PATH = matchstr(s:path, 'VIMPATH\zs.\{-}\ze\n')
+  endif
+endif
+
 " I think this is standard stuff...
 set shell=/bin/sh
 set nocompatible
@@ -20,18 +35,19 @@ Bundle 'pbrisbin/html-template-syntax'
 Bundle 'ujihisa/neco-ghc'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
-" Bundle 'dag/vim2hs'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'majutsushi/tagbar'
 Bundle 'kana/vim-fakeclip'
 Bundle 'scrooloose/nerdtree'
-Bundle 'pangloss/vim-javascript'
 Bundle 'juvenn/mustache.vim'
 Bundle 'vim-scripts/rails.vim'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'travitch/hasksyn'
+Bundle 'pangloss/vim-javascript'
+Bundle 'editorconfig/editorconfig-vim'
+Bundle 'lunaru/vim-less'
 
 " original repos on github
 " Bundle 'tpope/vim-fugitive'
@@ -60,10 +76,12 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 " Looks... 
 set term=screen-256color
 syntax enable
+set guifont=Ubuntu\ Mono:h16
 " set background=dark
 colorscheme zenburn
 set showmode
 set cursorline
+set cursorcolumn
 call Pl#Theme#InsertSegment('fullcurrenttag', 'before', 'filetype')
 
 set nu
@@ -90,6 +108,12 @@ inoremap <left>  <nop>
 inoremap <right> <nop>
 nmap     ;       :
 
+" Syntastic
+let g:syntastic_javascript_checkers=['jshint', 'jslint']
+
+" CtrlP
+set wildignore+=*.o,*.hi
+
 " Neocomplcache stuff...
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_camel_case_completion = 1
@@ -104,27 +128,22 @@ imap <C-k>     <Plug>(neocomplcache_snippets_expand)
 smap <C-k>     <Plug>(neocomplcache_snippets_expand)
 inoremap <expr><C-g>   neocomplcache#undo_completion()
 inoremap <expr><C-l>   neocomplcache#complete_common_string()
+
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 0
-" Neocomplcache-snippets-complete
-let g:neocomplcache_snippets_dir = '~/.vim/snippets'
+
+" neosnippet 
+let g:neosnippet#snippets_directory = "~/.vim/snippets"
 
 " haskell/yesod stuff
-autocmd BufWritePost *.hs call s:check_and_lint()
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync 
 autocmd BufNewFile,BufRead *.hamlet set syntax=hamlet
-
-function! s:check_and_lint()
-    let l:qflist = ghcmod#make('check')
-    call extend(l:qflist, ghcmod#make('lint'))
-    call setqflist(l:qflist)
-    cwindow
-    if empty(l:qflist)
-        echo "No errors found :)"
-    endif
-endfunction
 
 nmap _t  :w<CR>:GhcModType<CR>
 nmap _ti :w<CR>:GhcModTypeInsert<CR>
+
+" node/js stuff
+autocmd BufWritePost *.js SyntasticCheck
 
 " TagBar
 nmap <Leader>tb :TagbarOpenAutoClose<CR>

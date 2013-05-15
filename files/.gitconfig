@@ -1,0 +1,22 @@
+[user]
+	name = Schell Scivally
+	email = efsubenovex@gmail.com
+[core]
+	editor = vim
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = green reverse     
+  local = green    
+  remote = yellow
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = green     
+  changed = yellow bold
+  untracked = red bold
