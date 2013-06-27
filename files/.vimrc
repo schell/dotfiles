@@ -48,6 +48,7 @@ Bundle 'travitch/hasksyn'
 Bundle 'pangloss/vim-javascript'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'lunaru/vim-less'
+Bundle 'beyondmarc/glsl.vim'
 
 " original repos on github
 " Bundle 'tpope/vim-fugitive'
@@ -107,6 +108,9 @@ inoremap <down>  <nop>
 inoremap <left>  <nop>
 inoremap <right> <nop>
 nmap     ;       :
+
+" GLSL
+autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert,*.frag,*.geom,*.tess,*.shd,*.gls,*.glsl set ft=glsl430
 
 " Syntastic
 let g:syntastic_javascript_checkers=['jshint', 'jslint']

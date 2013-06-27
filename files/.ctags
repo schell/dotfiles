@@ -7,10 +7,12 @@
 
 --langdef=haskell
 --langmap=haskell:.hs
---regex-haskell=/^module[ \s]([a-zA-Z0-9]*)[ \s]where/module \1/m,module/
---regex-haskell=/^import[ \s](.*)/import \1/i,import/
---regex-haskell=/^data[ \s]([a-zA-Z0-9]*)[ \s]/data \1/d,data/
---regex-haskell=/^([a-zA-Z0-9]*)[ \s]::[ \s](.*)$/\1/f,functions/
+--regex-haskell=/^module[ \s]([a-zA-Z0-9]*)[ \s]where/\1/m,module/
+--regex-haskell=/^import[ \s](.*)/\1/i,import/
+--regex-haskell=/^class[ \s](.*)where/\1/t,typeclasses/
+--regex-haskell=/^instance[ \s](.*)where/\1/c,classes/
+--regex-haskell=/^data[ \s]([a-zA-Z0-9]*)[ \s]/\1/d,data/
+--regex-haskell=/^([ \sa-zA-Z0-9]*)[ \s]::[ \s](.*)$/\1/f,functions/
 
 --langdef=javascript
 --langmap=javascript:.js
