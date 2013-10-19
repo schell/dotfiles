@@ -9,7 +9,7 @@ done
 
 echo "Installing fish config, cuz, you know, you gotta love fish..."
 mkdir -p ~/.config/fish
-ln config.fish ~/.config/config.fish
+ln config.fish ~/.config/fish/config.fish
 
 echo "Installing vim vundle..."
 mkdir -p ~/.vim/bundle
