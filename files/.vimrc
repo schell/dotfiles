@@ -77,7 +77,10 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 " Looks... 
 set term=screen-256color
 syntax enable
-set guifont=Ubuntu\ Mono:h16
+let os = substitute(system('uname'), "\n", "", "") 
+if os == "Darwin"
+    set guifont=Ubuntu\ Mono:h16
+endif
 " set background=dark
 colorscheme zenburn
 set showmode

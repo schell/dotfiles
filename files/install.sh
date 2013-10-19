@@ -1,13 +1,17 @@
 #!/bin/bash
 
+echo "Installing dot files..."
 for f in .*
 do
     echo "Hard linking $f to ~/$f..."
     ln $f ~/$f
 done
 
-echo "Installing vim vundle..."
+echo "Installing fish config, cuz, you know, you gotta love fish..."
+mkdir -p ~/.config/fish
+ln config.fish ~/.config/config.fish
 
+echo "Installing vim vundle..."
 mkdir -p ~/.vim/bundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 vim ~/.vimrc +BundleInstall! +BundleClean +qall
