@@ -2,7 +2,7 @@
 function gobang
     cd ~/code/js/bang
 end
-function goviewer 
+function goviewer
     cd ~/code/synapse/SYNVIEWER/trunk
 end
 function gocviewer
@@ -32,14 +32,16 @@ set __CF_USER_TEXT_ENCODING 0x1F5:0x08000100:0
 #path stuff
 set PATH $HOME/.cabal/bin $PATH
 set PATH /usr/local/bin $PATH
-set PATH $PATH $HOME/Applications/bin 
-set PATH $PATH /opt/subversion/bin 
-set PATH $PATH /opt/local/bin  
-set PATH $PATH /opt/local/sbin  
-set PATH $PATH $HOME/bin  
+set PATH $PATH $HOME/Applications/bin
+set PATH $PATH /opt/subversion/bin
+set PATH $PATH /opt/local/bin
+set PATH $PATH /opt/local/sbin
+set PATH $PATH $HOME/bin
 
-# Haskell stuff 
-set PATH $PATH $HOME/Library/Haskell/bin
+# Haskell stuff
+set GHC_DOT_APP /Applications/ghc-7.8.3.app
+set PATH $PATH $HOME/.cabal/bin
+set PATH $PATH $GHC_DOT_APP/Contents/bin
 
 # Node stuff
 set PATH $PATH $HOME/Code/nvm/bin
@@ -74,38 +76,14 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     if not set -q __git_cb
-        set __git_cb ":"(set_color cyan)(set_color -b black)(git branch ^/dev/null | grep \* | sed 's/* //')(set_color normal)""
+        set __git_cb ":"(git branch ^/dev/null | grep \* | sed 's/* //')(set_color normal)""
     end
 
-    switch $USER
 
-        case root
-
-        if not set -q __fish_prompt_cwd
-            if set -q fish_color_cwd_root
-                set -g __fish_prompt_cwd (set_color $fish_color_cwd_root)
-            else
-                set -g __fish_prompt_cwd (set_color $fish_color_cwd)
-            end
-        end
-
-        printf '%s@%s:%s%s%s%s# ' $USER $__fish_prompt_hostname "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" $__git_cb
-        
-        case 'schellsan'
-            
-        if not set -q __fish_prompt_cwd
-            set -g __fish_prompt_cwd (set_color $fish_color_cwd)
-        end
-
-        printf '%s%s%s%s> ' "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" $__git_cb
-        
-        case '*'
-
-        if not set -q __fish_prompt_cwd
-            set -g __fish_prompt_cwd (set_color $fish_color_cwd)
-        end
-
-        printf '%s@%s:%s%s%s%s$ ' $USER $__fish_prompt_hostname "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" $__git_cb
-
+    if not set -q __fish_prompt_cwd
+        set -g __fish_prompt_cwd (set_color $fish_color_cwd)
     end
+
+    printf '%s%s%s%s%s$ ' $USER "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" $__git_cb
+
 end
