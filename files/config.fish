@@ -37,6 +37,7 @@ set PATH $PATH /opt/subversion/bin
 set PATH $PATH /opt/local/bin
 set PATH $PATH /opt/local/sbin
 set PATH $PATH $HOME/bin
+set PATH $PATH $HOME/Code/flow
 
 # Haskell stuff
 set GHC_DOT_APP /Applications/ghc-7.8.3.app
@@ -48,7 +49,10 @@ set PATH $PATH $HOME/Code/nvm/bin
 set PATH $PATH /usr/local/share/npm/bin
 set NODE_PATH /usr/local/lib/node
 
-
+# nix stuff
+set NIX_PATH $HOME/nixpkgs
+set NIX_LINK $HOME/.nix-profile
+set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
 
 # Add Go stuff
 set GOROOT /usr/local/go

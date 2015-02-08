@@ -1,13 +1,5 @@
-" Get path info (mac stuff)
-" TODO:  Is there a better way to tell that Vim.app was started from Finder.app?
-" Note:  Do not move this to the gvimrc file, else this value of $PATH will
-" not be available to plugin scripts.
 if has("gui_running") && system('ps xw | grep "Vim -psn" | grep -vc grep') > 0
-  " Get the value of $PATH from a login shell.
-  " If your shell is not on this list, it may be just because we have not
-  " tested it.  Try adding it to the list and see if it works.  If so,
-  " please post a note to the vim-mac list!
-  if $SHELL =~ '/\(sh\|csh\|bash\|tcsh\|zsh\)$'
+  if $SHELL =~ '/\(sh\|csh\|bash\|tcsh\|zsh\|fish\)$'
     let s:path = system("echo echo VIMPATH'${PATH}' | $SHELL -l")
     let $PATH = matchstr(s:path, 'VIMPATH\zs.\{-}\ze\n')
   endif
@@ -22,70 +14,61 @@ scriptencoding utf-8
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
 Bundle 'gmarik/vundle'
-
-" My Bundles here:
 Bundle 'Shougo/vimproc'
+
+"Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
 Bundle 'scrooloose/syntastic'
+"
+Bundle 'schell/vim-snippets'
+Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'eagletmt/ghcmod-vim'
 Bundle 'pbrisbin/html-template-syntax'
 Bundle 'ujihisa/neco-ghc'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'majutsushi/tagbar'
 Bundle 'kana/vim-fakeclip'
-Bundle 'scrooloose/nerdtree'
 Bundle 'juvenn/mustache.vim'
 Bundle 'vim-scripts/rails.vim'
 Bundle 'flazz/vim-colorschemes'
+Bundle 'eagletmt/ghcmod-vim'
+Bundle 'bitc/vim-hdevtools'
+Bundle 'vim-scripts/Superior-Haskell-Interaction-Mode-SHIM'
 Bundle 'travitch/hasksyn'
 Bundle 'pangloss/vim-javascript'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'lunaru/vim-less'
 Bundle 'beyondmarc/glsl.vim'
-
-" original repos on github
-" Bundle 'tpope/vim-fugitive'
-
-" vim-scripts repos
-" Bundle 'L9'
-
-" non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
-" ...
+Bundle 'jamestomasino/actionscript-vim-bundle'
+Bundle 'dag/vim2hs'
+Bundle 'vim-scripts/hlint'
+Bundle 'dart-lang/dart-vim-plugin'
+Bundle 'lambdatoast/elm.vim'
+Bundle 'raichoo/purescript-vim'
+Bundle 'facebook/vim-flow'
 
 filetype plugin indent on     " required!
-"
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
-
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
-
-" Looks... 
+" Always show the statusline
+set laststatus=2
+" Necessary to show Unicode glyphs
+set encoding=utf-8
+" Looks...
 set term=screen-256color
 syntax enable
-let os = substitute(system('uname'), "\n", "", "") 
-if os == "Darwin"
-    set guifont=Ubuntu\ Mono:h16
-endif
-" set background=dark
-colorscheme zenburn
+set guifont=Ubuntu\ Mono:h16
+
+set background=dark
+colorscheme solarized
+
 set showmode
 set cursorline
 set cursorcolumn
+set colorcolumn=80
+highlight ColorColumn
+
 call Pl#Theme#InsertSegment('fullcurrenttag', 'before', 'filetype')
 
 set nu
@@ -101,16 +84,30 @@ set expandtab                   " tabs are spaces, not tabs
 set tabstop=4                   " an indentation every four columns
 set softtabstop=4               " let backspace delete indent
 
+" Don't expand tabs when working on a Makefile
+autocmd FileType make setlocal noexpandtab
+
 " Key mappings...
+nnoremap <Leader>ee :Errors<CR>
 nnoremap <left>  <nop>
 nnoremap <right> <nop>
 nnoremap <up>    <nop>
 nnoremap <down>  <nop>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 inoremap <up>    <nop>
 inoremap <down>  <nop>
 inoremap <left>  <nop>
 inoremap <right> <nop>
 nmap     ;       :
+
+" C headers
+autocmd BufRead,BufNewFile *.h set filetype=c
+
+" as3
+autocmd BufRead,BufNewFile *.as set filetype=actionscript
+
+" Markdown
+autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 " GLSL
 autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert,*.frag,*.geom,*.tess,*.shd,*.gls,*.glsl set ft=glsl430
@@ -118,8 +115,17 @@ autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert
 " Syntastic
 let g:syntastic_javascript_checkers=['jshint', 'jslint']
 
-" CtrlP
-set wildignore+=*.o,*.hi
+" Javascript
+let g:flow#enable = 1
+let g:flow#autoclose = 1
+let g:flow#errjmp = 1
+
+" Dart
+let $DART_SDK_DIR='/Users/schell/Code/dart/dart-sdk'
+let g:syntastic_dart_checkers=['dartanalyzer']
+
+" ctrlp
+set wildignore+=*.o,*.hi,*/tmp/*,*.so,*.swp,*.zip,*.dyn_*,*.p_*,*/mock/*,*/test/spec/*
 
 " Neocomplcache stuff...
 let g:neocomplcache_enable_at_startup = 1
@@ -131,23 +137,28 @@ let g:neocomplcache_enable_auto_delimiter = 1
 let g:neocomplcache_max_list = 15
 let g:neocomplcache_auto_completion_start_length = 3
 let g:neocomplcache_force_overwrite_completefunc = 1
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
 inoremap <expr><C-g>   neocomplcache#undo_completion()
 inoremap <expr><C-l>   neocomplcache#complete_common_string()
 
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 0
 
-" neosnippet 
-let g:neosnippet#snippets_directory = "~/.vim/snippets"
+" neosnippet
+let g:neosnippet#snippets_directory = "~/.vim/bundle/vim-snippets/snippets"
 
-" haskell/yesod stuff
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync 
+" Haskell stuff
+let g:hdevtools_options = '-g-isrc -g-Wall'
+let g:syntastic_haskell_checkers=['hdevtools']
+let g:syntastic_haskell_hdevtools_args = '-g-isrc -g-Wall'
+"autocmd BufWritePost *.hs SyntasticCheck
 autocmd BufNewFile,BufRead *.hamlet set syntax=hamlet
 
-nmap _t  :w<CR>:GhcModType<CR>
-nmap _ti :w<CR>:GhcModTypeInsert<CR>
+au FileType haskell nnoremap <buffer> <Leader>tt :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <Leader>tc :HdevtoolsClear<CR>
 
 " node/js stuff
 autocmd BufWritePost *.js SyntasticCheck
@@ -163,15 +174,7 @@ let g:tagbar_type_actionscript = {
         \ 'f:functions',
     \ ]
 \ }
-let g:tagbar_type_haskell = {
-    \ 'ctagstype' : 'Haskell',
-    \ 'kinds' : [
-        \ 'm:module',
-        \ 'i:import',
-        \ 'd:data',
-        \ 'f:functions',
-    \ ]
-\ }
+
 let g:tagbar_type_javascript = {
     \ 'ctagstype' : 'Javascript',
     \ 'kinds' : [
@@ -182,6 +185,36 @@ let g:tagbar_type_javascript = {
         \ 'f:functions',
     \ ]
 \ }
+
+if executable('lushtags')
+    let g:tagbar_type_haskell = {
+        \ 'ctagsbin' : 'lushtags',
+        \ 'ctagsargs' : '--ignore-parse-error --',
+        \ 'kinds' : [
+            \ 'm:module:0',
+            \ 'e:exports:1',
+            \ 'i:imports:1',
+            \ 't:declarations:0',
+            \ 'd:declarations:1',
+            \ 'n:declarations:1',
+            \ 'f:functions:0',
+            \ 'c:constructors:0'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 'd' : 'data',
+            \ 'n' : 'newtype',
+            \ 'c' : 'constructor',
+            \ 't' : 'type'
+        \ },
+        \ 'scope2kind' : {
+            \ 'data' : 'd',
+            \ 'newtype' : 'n',
+            \ 'constructor' : 'c',
+            \ 'type' : 't'
+        \ }
+    \ }
+endif
 
 " Clipboard
 set clipboard=unnamed
@@ -195,15 +228,19 @@ let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
+let NERDTreeIgnore=['\.hi$', '\.o$', '\.DS_Store$', '.*dyn_.*$']
 let g:nerdtree_tabs_open_on_gui_startup=0
 
 " Special chars
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
- 
+
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
-        
+
 "Invisible character colors
 highlight NonText guibg=#000000
 highlight SpecialKey guibg=#000000
+
+echom "(>^.^<)"
+
