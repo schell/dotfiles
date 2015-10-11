@@ -40,9 +40,8 @@ set PATH $PATH $HOME/bin
 set PATH $PATH $HOME/Code/flow
 
 # Haskell stuff
-set GHC_DOT_APP /Applications/ghc-7.8.3.app
-set PATH $PATH $HOME/.cabal/bin
-set PATH $PATH $GHC_DOT_APP/Contents/bin
+set GHC_DOT_APP /Applications/ghc-7.10.2.app
+set PATH $HOME/.local/bin $HOME/.cabal/bin $GHC_DOT_APP/Contents/bin $PATH
 
 # Node stuff
 set PATH $PATH $HOME/Code/nvm/bin
@@ -57,6 +56,10 @@ set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
 # Add Go stuff
 set GOROOT /usr/local/go
 set PATH $PATH $GOROOT/bin
+
+function gitlogdiff
+    git log $argv --graph --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative
+end
 
 function parse_git_branch
     set gitstatus (git status)

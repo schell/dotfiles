@@ -16,11 +16,8 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'Shougo/vimproc'
-
-"Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
 Bundle 'scrooloose/syntastic'
-"
 Bundle 'schell/vim-snippets'
 Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
@@ -35,7 +32,6 @@ Bundle 'juvenn/mustache.vim'
 Bundle 'vim-scripts/rails.vim'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'eagletmt/ghcmod-vim'
-Bundle 'bitc/vim-hdevtools'
 Bundle 'vim-scripts/Superior-Haskell-Interaction-Mode-SHIM'
 Bundle 'travitch/hasksyn'
 Bundle 'pangloss/vim-javascript'
@@ -49,6 +45,7 @@ Bundle 'dart-lang/dart-vim-plugin'
 Bundle 'lambdatoast/elm.vim'
 Bundle 'raichoo/purescript-vim'
 Bundle 'facebook/vim-flow'
+Bundle 'terryma/vim-expand-region'
 
 filetype plugin indent on     " required!
 " Always show the statusline
@@ -58,7 +55,7 @@ set encoding=utf-8
 " Looks...
 set term=screen-256color
 syntax enable
-set guifont=Ubuntu\ Mono:h16
+set guifont=Monoid:h14 "Ubuntu\ Mono:h16
 
 set background=dark
 colorscheme solarized
@@ -68,6 +65,9 @@ set cursorline
 set cursorcolumn
 set colorcolumn=80
 highlight ColorColumn
+
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 call Pl#Theme#InsertSegment('fullcurrenttag', 'before', 'filetype')
 
@@ -151,14 +151,13 @@ let g:neocomplcache_enable_auto_select = 0
 let g:neosnippet#snippets_directory = "~/.vim/bundle/vim-snippets/snippets"
 
 " Haskell stuff
-let g:hdevtools_options = '-g-isrc -g-Wall'
-let g:syntastic_haskell_checkers=['hdevtools']
-let g:syntastic_haskell_hdevtools_args = '-g-isrc -g-Wall'
-"autocmd BufWritePost *.hs SyntasticCheck
+let g:ghcmod_should_use_ghc_modi = 1
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 autocmd BufNewFile,BufRead *.hamlet set syntax=hamlet
 
-au FileType haskell nnoremap <buffer> <Leader>tt :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <Leader>tc :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> <Leader>tt :GhcModType<CR>
+au FileType haskell nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
+au FileType haskell nnoremap <buffer> <Leader>sg :GhcModSigCodegen<CR>
 
 " node/js stuff
 autocmd BufWritePost *.js SyntasticCheck
