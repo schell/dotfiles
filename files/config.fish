@@ -41,7 +41,16 @@ set PATH $PATH $HOME/Code/flow
 
 # Haskell stuff
 set GHC_DOT_APP /Applications/ghc-7.10.2.app
+set GHC_DOT_APP /Applications/ghc-7.8.3.app
 set PATH $HOME/.local/bin $HOME/.cabal/bin $GHC_DOT_APP/Contents/bin $PATH
+
+function switchGHC
+    set GHC_DOT_APP /Applications/ghc-$argv.app
+    set PATH $HOME/.local/bin $HOME/.cabal/bin $GHC_DOT_APP/Contents/bin $PATH
+    echo "Your GHC is "(which ghc)
+end
+
+switchGHC 7.8.3
 
 # Node stuff
 set PATH $PATH $HOME/Code/nvm/bin
