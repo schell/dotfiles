@@ -1,5 +1,5 @@
 function files
-  echo "~/.config/fish/config.fish ~/.spacemacs"
+  echo "$HOME/.config/fish/config.fish $HOME/.spacemacs"
 end
 
 function commitfiles
