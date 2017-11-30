@@ -3,12 +3,12 @@ function files
 end
 
 function commitfiles
-  cp (files) ./
+  files | xargs -J % cp % ./
   git add -A
   git commit -am "updated dotfiles"
-  get push origin master
+  git push origin master
 end
 
 function putfiles
-  cp (files) ~/
+  files | xargs -J % cp % ~/
 end
